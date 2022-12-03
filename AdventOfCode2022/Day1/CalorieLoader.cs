@@ -1,8 +1,8 @@
-﻿namespace AdventOfCode2022;
+﻿namespace AdventOfCode2022.Day1;
 
 public static class CalorieLoader
 {
-    private const string ElfCaloriesInputFile = "puzzle-input-day1.txt";
+    private const string ElfCaloriesInputFile = @"Day1\puzzle-input-day1.txt";
 
     public static IEnumerable<int> LoadCalories()
     {

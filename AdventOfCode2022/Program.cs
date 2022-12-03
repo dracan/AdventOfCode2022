@@ -1,5 +1,9 @@
-﻿using AdventOfCode2022;
+﻿using AdventOfCode2022.Day1;
 
-var highestCalorieCount = ElfUtils.GetElfWithHighestCalorieCount();
+ExecuteDay1();
 
-Console.WriteLine($"Highest calorie count is {highestCalorieCount}");
+void ExecuteDay1()
+{
+    var highestCalorieCount = Day1.GetElfWithHighestCalorieCount();
+    Console.WriteLine($"Highest calorie count is {highestCalorieCount}");
+}
