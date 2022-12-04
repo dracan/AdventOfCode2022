@@ -5,8 +5,12 @@ using Day3;
 public class Day3Tests
 {
     [Fact]
-    public void CalculateTotalPriorityValueOfDuplicateItemsAcrossRucksacksCompartmentsTest() =>
-        Day3.CalculateTotalPriorityValueOfDuplicateItemsAcrossRucksacksCompartments().Should().Be(8139);
+    public void Part1_CalculateTotalPriorityValueOfDuplicateItemsAcrossRucksacksCompartmentsTest() =>
+        Day3.Part1_CalculateTotalPriorityValueOfDuplicateItemsAcrossRucksacksCompartments().Should().Be(8139);
+
+    [Fact]
+    public void Part2_CalculateTotalElfGroupBadgePrioriesTests() =>
+        Day3.Part2_CalculateTotalElfGroupBadgePriories().Should().Be(2668);
 
     [Theory]
     [InlineData("kdsfs32423skjx", "kdsfs32", "423skjx")]
@@ -40,4 +44,12 @@ public class Day3Tests
     [InlineData("pLPvts", 157)] // Example provided in requirement
     public void ConvertItemArrayToPriorityValueTests(string itemArray, int expectedSummedPriorityValue) =>
         Day3.ConvertItemArrayToPriorityValue(itemArray.ToCharArray()).Should().Be(expectedSummedPriorityValue);
+
+    [Theory]
+    [InlineData("xabc", "defx", "gxhi", 'x')]
+    // Two examples below provided in requirement...
+    [InlineData("vJrwpWtwJgWrhcsFMMfFFhFp", "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL", "PmmdzqPrVvPwwTWBwg", 'r')]
+    [InlineData("wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn", "ttgJtRGJQctTZtZT", "CrZsJsPPZsGzwwsLwLmpwMDw", 'Z')]
+    public void FindGroupBadgeTests(string group1Items, string group2Items, string group3Items, char expectedBadgeChar) =>
+        Day3.FindGroupBadge(group1Items,group2Items,group3Items).Should().Be(expectedBadgeChar);
 }

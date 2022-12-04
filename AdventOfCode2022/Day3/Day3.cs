@@ -6,14 +6,45 @@ public static class Day3
 {
     public record Rucksack(Compartment LeftCompartment, Compartment RightCompartment);
     public record Compartment(char[] Items);
+    private record ElfGroup(char BadgeChar);
 
-    public static int CalculateTotalPriorityValueOfDuplicateItemsAcrossRucksacksCompartments() =>
+    public static int Part1_CalculateTotalPriorityValueOfDuplicateItemsAcrossRucksacksCompartments() =>
         File.ReadLines(@"Day3\puzzle-input-day3.txt")
             .Where(x => !string.IsNullOrWhiteSpace(x))
             .Select(ParseLineToCreateRucksack)
             .Select(GetItemsThatExistInBothCompartments)
             .Select(ConvertItemArrayToPriorityValue)
             .Sum(x => x);
+
+    public static int Part2_CalculateTotalElfGroupBadgePriories() =>
+        File.ReadLines(@"Day3\puzzle-input-day3.txt")
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Select((line, index) => new { line, index })
+            .GroupBy(x => x.index / 3, x => x.line)
+            .Select(ToElfGroup)
+            .Select(x => ConvertItemArrayToPriorityValue(new[] { x.BadgeChar }))
+            .Sum(x => x);
+
+    private static ElfGroup ToElfGroup(IGrouping<int, string> grouping)
+    {
+        Debug.Assert(grouping.Count() == 3);
+        var elfItems = grouping.ToArray();
+        var badgeChar = FindGroupBadge(elfItems[0], elfItems[1], elfItems[2]);
+        return new ElfGroup(badgeChar);
+    }
+
+    public static char FindGroupBadge(string elf1Items, string elf2Items, string elf3Items) =>
+        // Distinct removes all duplicates items held by the same elf
+        elf1Items.ToCharArray().Distinct()
+            .Concat(elf2Items.ToCharArray().Distinct())
+            .Concat(elf3Items.Distinct())
+            // Reorder so same items are together, then group so we can count (3 together will be the badge)
+            .OrderBy(x => x)
+            .GroupBy(x => x)
+            // Only the badge will have three in the group
+            .Where(x => x.Count() == 3)
+            .Select(x => x.ToArray()[0])
+            .Single();
 
     public static Rucksack ParseLineToCreateRucksack(string line)
     {
